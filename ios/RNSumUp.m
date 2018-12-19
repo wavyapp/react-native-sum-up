@@ -60,6 +60,9 @@ RCT_EXPORT_METHOD(authenticate:(RCTPromiseResolveBlock)resolve rejecter:(RCTProm
 {
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIViewController *rootViewController = UIApplication.sharedApplication.delegate.window.rootViewController;
+        while (rootViewController.presentedViewController != nil) {
+            rootViewController = rootViewController.presentedViewController;
+        }
         [SMPSumUpSDK presentLoginFromViewController:rootViewController animated:YES completionBlock:^(BOOL success, NSError *error) {
             if (error) {
                 [rootViewController dismissViewControllerAnimated:YES completion:nil];
@@ -68,8 +71,7 @@ RCT_EXPORT_METHOD(authenticate:(RCTPromiseResolveBlock)resolve rejecter:(RCTProm
                 SMPMerchant *merchantInfo = [SMPSumUpSDK currentMerchant];
                 NSString *merchantCode = [merchantInfo merchantCode];
                 NSString *currencyCode = [merchantInfo currencyCode];
-                if (merchantCode && currencyCode){
-                    RCTLogInfo(@"WavyError: success2");
+                if (merchantCode && currencyCode) {
                     return resolve(@{@"success": @(success), @"userAdditionalInfo": @{ @"merchantCode": merchantCode, @"currencyCode": currencyCode }});
                 }
                 return resolve(@{@"success": @(success) });
@@ -132,6 +134,9 @@ RCT_EXPORT_METHOD(checkout:(NSDictionary *)request resolver:(RCTPromiseResolveBl
     checkoutRequest.skipScreenOptions = skipScreen;
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIViewController *rootViewController = UIApplication.sharedApplication.delegate.window.rootViewController;
+        while (rootViewController.presentedViewController != nil) {
+            rootViewController = rootViewController.presentedViewController;
+        }
         [SMPSumUpSDK checkoutWithRequest:checkoutRequest
                       fromViewController:rootViewController
                               completion:^(SMPCheckoutResult *result, NSError *error) {
@@ -157,6 +162,9 @@ RCT_EXPORT_METHOD(preferences:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromi
 {
     dispatch_sync(dispatch_get_main_queue(), ^{
         UIViewController *rootViewController = UIApplication.sharedApplication.delegate.window.rootViewController;
+        while (rootViewController.presentedViewController != nil) {
+            rootViewController = rootViewController.presentedViewController;
+        }
         [SMPSumUpSDK presentCheckoutPreferencesFromViewController:rootViewController
                                                          animated:YES
                                                        completion:^(BOOL success, NSError * _Nullable error) {
