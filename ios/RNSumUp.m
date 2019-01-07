@@ -124,7 +124,7 @@ RCT_EXPORT_METHOD(checkout:(NSDictionary *)request resolver:(RCTPromiseResolveBl
     NSDecimalNumber *total = [NSDecimalNumber decimalNumberWithString:[RCTConvert NSString:request[@"totalAmount"]]];
     NSString *title = [RCTConvert NSString:request[@"title"]];
     NSString *currencyCode = [RCTConvert NSString:request[@"currencyCode"]];
-    NSString *foreignTransactionID = [RCTConvert NSString:[request objectForKeyNotNull:@"foreignTransactionId"]];
+    NSString *foreignTransactionID = [RCTConvert NSString:request[@"foreignTransactionId"]];
     NSUInteger paymentOption = [RCTConvert SMPPaymentOptions:request[@"paymentOption"]];
     NSUInteger skipScreen = [RCTConvert SMPSkipScreenOptions:@"1"];
 
@@ -133,7 +133,7 @@ RCT_EXPORT_METHOD(checkout:(NSDictionary *)request resolver:(RCTPromiseResolveBl
                                                                   currencyCode:currencyCode
                                                                 paymentOptions:paymentOption];
     checkoutRequest.skipScreenOptions = skipScreen;
-    if (foreignTransactionID != [NSNull null]) {
+    if (foreignTransactionID != nil) {
         [checkoutRequest setForeignTransactionID:foreignTransactionID];
     }
 
