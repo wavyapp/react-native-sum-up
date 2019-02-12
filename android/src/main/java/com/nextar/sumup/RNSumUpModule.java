@@ -138,7 +138,7 @@ public class RNSumUpModule extends ReactContextBaseJavaModule {
     try {
       String foreignTransactionId = UUID.randomUUID().toString();
       if (request.getString("foreignTransactionId") != null) {
-         foreignTransactionId = request.getString("foreignTransactionId");
+        foreignTransactionId = request.getString("foreignTransactionId");
       }
       SumUpPayment.Currency currencyCode = this.getCurrency(request.getString("currencyCode"));
       SumUpPayment payment = SumUpPayment.builder()
@@ -219,8 +219,9 @@ public class RNSumUpModule extends ReactContextBaseJavaModule {
                 map.putMap("additionalInfo", additionalInfo);
 
                 mSumUpPromise.resolve(map);
-              }else
-                mSumUpPromise.reject(extra.getString(SumUpAPI.Response.RESULT_CODE), extra.getString(SumUpAPI.Response.MESSAGE));
+              }else{
+                mSumUpPromise.reject(extra.getString(String.valueOf(SumUpAPI.Response.RESULT_CODE)), extra.getString(SumUpAPI.Response.RESULT_CODE));
+              }
             }
           }
           break;
