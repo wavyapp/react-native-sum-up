@@ -7,7 +7,6 @@
 //
 
 #import "RNSumUp.h"
-#import "AppDelegate.h"
 
 @implementation RCTConvert (SMPPaymentOptions)
 
