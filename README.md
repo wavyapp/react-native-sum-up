@@ -1,41 +1,38 @@
 
-# react-native-sum-up
+# @wavyapp/react-native-sum-up
 
-## Getting started
+## iOS
 
-`$ npm install rn-sumup --save`
-
-### Mostly automatic installation
-
-`$ react-native link rn-sumup`
-
-### Manual installation
-
-
-#### iOS
-
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `rn-sumup` and add `RNSumUp.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNSumUp.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
-
-#### Android
-
-1. Open up `android/app/src/main/java/[...]/MainApplication.java`
-  - Add `import com.nextar.sumup.RNSumUpPackage;` to the imports at the top of the file
-  - Add `new RNSumUpPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':rn-sumup'
-  	project(':rn-sumup').projectDir = new File(rootProject.projectDir, 	'../node_modules/rn-sumup/android')
-  	```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-      compile project(':rn-sumup')
-  	```
-## Usage
-```javascript
-import RNSumUp from 'rn-sumup';
+Copy those lines in your Podfile, in the `target 'x' do` section
 
 ```
-  
+  post_install do |installer|
+    sum_up_missing_header = Pod::Executable.execute_command(
+      'node', [
+        '-p',
+        'require.resolve(
+          "@wavyapp/react-native-sum-up/ios/ISHCashierWebService.h",
+          {paths: [process.argv[1]]},
+        )',
+        __dir__
+      ]).strip
+    Pod::UI.info "Installing SumUpSDK missing header #{sum_up_missing_header}".green
+    FileUtils.cp(sum_up_missing_header, "Pods/SumUpSDK/SumUpSDK.xcframework/ios-arm64/SumUpSDK.framework/Headers/")
+	end
+```
+
+## Usage
+```javascript
+import {
+  authenticate,
+  checkout,
+  isLoggedIn,
+  logout,
+  preferences,
+  prepareForCheckout,
+} from '@wavyapp/react-native-sum-up';
+```
+
+## Test transactions
+You need to set up a SumUp test profile, make sure you enable the payment scopes under the section `Restricted scopes` in the OAuth2 page
+Then generate an affiliate key, associate your app Bundle ID/package name to the affiliate key and give this key to the `authenticate` method
