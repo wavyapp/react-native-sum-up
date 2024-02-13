@@ -1,82 +1,56 @@
-
 buildscript {
-    repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-    }
+  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["sumUp_kotlinVersion"]
+  repositories {
+    mavenCentral()
+    google()
+  }
+  dependencies {
+    classpath "com.android.tools.build:gradle:8.2.2"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+  }
 }
 
 allprojects {
-    repositories {
-        jcenter()
-
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-
-        maven { url 'https://maven.sumup.com/releases' }
-    }
+  repositories {
+    mavenCentral()
+    google()
+    maven { url 'https://maven.sumup.com/releases' }
+  }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: "kotlin-android"
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "26.0.2"
+  compileSdk 34
+  namespace "fr.wavyapp.sumup"
 
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-        ndk {
-            abiFilters "armeabi-v7a", "x86"
-        }
-    }
-    // Possible resolution strategy. Only necessary if not compiling against API 27
-    configurations.all {
-        resolutionStrategy {
-            force 'com.android.support:support-v4:26.1.0'
-            force 'com.android.support:appcompat-v7:26.1.0'
-            force 'com.android.support:cardview-v7:26.1.0'
-            force 'com.android.support:design:26.1.0'
-        }
-    }
+  defaultConfig {
+    minSdkVersion 21
+    targetSdkVersion 34
+    versionCode 2
+    versionName "2.0"
+  }
 
-    packagingOptions {
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
-    }
+  packagingOptions {
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/NOTICE'
+  }
 
-    buildTypes {
-        debug {
-            // All ProGuard rules required by the SumUp SDK are packaged with the library
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
-        }
+  buildTypes {
+    debug {
+      // All ProGuard rules required by the SumUp SDK are packaged with the library
+      minifyEnabled true
+      proguardFiles getDefaultProguardFile('proguard-android.txt')
     }
-}
-
-repositories {
-    mavenCentral()
-    jcenter()
+  }
 }
 
 dependencies {
-    annotationProcessor 'com.neenbedankt.bundles:argument:1.0.4'
-    compile 'com.neenbedankt.bundles:argument:1.0.4'
-    compile 'com.facebook.react:react-native:+'
-    compile 'com.android.support:appcompat-v7:27.1.1'
-    compile 'com.android.support:design:27.1.1'
-
-    compile 'com.sumup:merchant-sdk:3.0.0'
+  implementation 'com.facebook.react:react-android:+'
+  implementation 'androidx.appcompat:appcompat:1.6.1'
+  implementation 'com.google.android.material:material:1.11.0'
+  implementation 'com.sumup:merchant-sdk:4.3.0'
 }
   
