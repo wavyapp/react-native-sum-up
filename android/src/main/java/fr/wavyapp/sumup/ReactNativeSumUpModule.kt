@@ -151,7 +151,9 @@ class ReactNativeSumUpModule(private val reactContext: ReactApplicationContext) 
                 "cardLast4Digits",
                 transactionInfo.card.last4Digits
               )
-              additionalInfo.putInt("installments", transactionInfo.installments)
+              transactionInfo.installments?.let {
+                additionalInfo.putInt("installments", transactionInfo.installments)
+              }
               map.putMap("additionalInfo", additionalInfo)
               promise?.resolve(map)
             } else {
