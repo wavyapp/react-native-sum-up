@@ -1,6 +1,6 @@
 {
   "name": "@wavyapp/react-native-sum-up",
-  "version": "2.1.1",
+  "version": "2.0.0",
   "description": "SumUpSDK Wrapper for React Native.",
   "main": "lib/commonjs/index.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "android",
     "lib",
     "ios",
+    "ReactNativeSumUp.podspec",
     "src",
     "!**/__tests__",
     "!**/__fixtures__",
