@@ -9,7 +9,7 @@ import SumUpSDK
 import Security
 
 @objc(ReactNativeSumUp)
-class ReactNativeSumUp: RCTEventEmitter {
+class ReactNativeSumUp: NSObject {
   private var isSDKSetup = false
 
   override init() {
