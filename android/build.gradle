@@ -41,8 +41,8 @@ android {
   buildTypes {
     debug {
       // All ProGuard rules required by the SumUp SDK are packaged with the library
-      minifyEnabled true
-      proguardFiles getDefaultProguardFile('proguard-android.txt')
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
 }
